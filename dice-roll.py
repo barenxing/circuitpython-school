@@ -7,7 +7,7 @@ import random
 import board, neopixel, digitalio, adafruit_lis3dh, busio, analogio, touchio
 from random import randint
 from time import sleep
-from adafruit_led_animation.color import BLACK, WHITE, RED, BLUE, YELLOW, AMBER, GREEN, CYAN, ORANGE
+from adafruit_led_animation.color import BLACK, WHITE, RED
 from audiocore import WaveFile
 from audioio import AudioOut
 
@@ -27,20 +27,16 @@ accelerometer = adafruit_lis3dh.LIS3DH_I2C(i2c, address=0x19)
 # set range
 accelerometer.range = adafruit_lis3dh.RANGE_2_G
 
-
-
 PIXEL_COUNT = 10
 pixels = neopixel.NeoPixel(board.NEOPIXEL, PIXEL_COUNT)
 pixels.brightness = 0.01
 pixels.fill(BLACK)
 pixel_light_delay = 0.1
 
-colors = [RED, BLUE, YELLOW, AMBER, GREEN, CYAN, ORANGE]
-drumsamples = ['splat', 'scratch', 'bd_zome', 'drum_cowbell', 'elec_cymbal', 'elec_hi_snare', 'bass_hit_c']
-
 # setup touch pads
 pads = [board.A1, board.A2, board.A3, board.A4, board.A5, board.A6, board.A7]
 touchpads = []
+dice_dots = [1, 2, 3, 6, 7, 8] # 3 on each side evenly spaced
 
 for pad in pads:
     touchpads.append(touchio.TouchIn(pad))
@@ -67,5 +63,5 @@ while True:
 
             die_value = randint(1, 6)
             for i in range(die_value):
-                pixels[i] = RED
+                pixels[dice_dots[i]] = RED
                 sleep(pixel_light_delay)
