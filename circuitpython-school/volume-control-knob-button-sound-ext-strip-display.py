@@ -40,7 +40,7 @@ colors = [RED, YELLOW, ORANGE, GREEN, TEAL, CYAN, BLUE, PURPLE, MAGENTA, GOLD, P
 NUM_PIXELS = 10
 NUM_STRIP_PIXELS = 8
 MAX_VOLUME = min(NUM_PIXELS, NUM_STRIP_PIXELS)
-BRIGHTNESS = 0.01
+BRIGHTNESS = 0.03
 BLINK_DELAY = 0.2
 
 pixels = neopixel.NeoPixel(board.NEOPIXEL, NUM_PIXELS, brightness=BRIGHTNESS, auto_write=True)
@@ -63,7 +63,7 @@ button_B.switch_to_input(pull=digitalio.Pull.DOWN)
 touchpad_A2_input = touchio.TouchIn(board.A2)
 touchpad_A2 = Button(touchpad_A2_input, value_when_pressed=True)
 
-use_button_for_control = True  # defaults to use buttons as the volume control
+use_button_for_control = False  # defaults to use buttons as the volume control
 print("Using Button for volume adjustment")
 print("Press Button A to increase volume, Press Button B to decrease volume")
 # print("Rotate potentiometer to change volume")
@@ -97,9 +97,9 @@ while True:
     if volume != last_volume:
         last_volume = volume
         pixels_to_lit = range_map(volume,0, MAX_VOLUME, 0, NUM_PIXELS)
-        pixels[:] = [RED if i < pixels_to_lit else BLACK for i in range(NUM_PIXELS)]
+        pixels[:] = [ORANGE if i < pixels_to_lit else BLACK for i in range(NUM_PIXELS)]
         strip_pixels_to_lit = range_map(volume, 0, MAX_VOLUME, 0, NUM_STRIP_PIXELS)
-        strip_pixels[:] = [RED if i < strip_pixels_to_lit else BLACK for i in range(NUM_STRIP_PIXELS)]
+        strip_pixels[:] = [ORANGE if i < strip_pixels_to_lit else BLACK for i in range(NUM_STRIP_PIXELS)]
         print(f"volume: {volume}, pixels: {pixels_to_lit}, strip_pixels: {strip_pixels_to_lit}")
 
     sleep(BLINK_DELAY)
